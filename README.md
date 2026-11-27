@@ -1,6 +1,8 @@
 # multi-agent-collab
 
-WorkBuddy skill：**多 agent 并行协作协议**。把"主 agent 只拆解派发与集成验证 + 多个子 agent 各自在隔离目录并行干活"的流程固化下来，一句话触发整套协作。
+Agent Skills 开放标准 skill：**多 agent 并行协作协议**。把"主 agent 只拆解派发与集成验证 + 多个子 agent 各自在隔离目录并行干活"的流程固化下来，一句话触发整套协作。
+
+兼容 [Agent Skills 开放标准](https://agentskills.io)（Linux 基金会托管）的各类 agent：WorkBuddy、Claude Code、Codex、Gemini CLI 等。
 
 ## 它解决什么问题
 
@@ -13,17 +15,28 @@ WorkBuddy skill：**多 agent 并行协作协议**。把"主 agent 只拆解派�
 
 ## 安装
 
-克隆本仓库后，将内容放入 WorkBuddy 的用户级 skill 目录：
+克隆本仓库后，把整个 `multi-agent-collab/` 文件夹（含 SKILL.md 与 references/）放进你的 agent 的 skills 目录：
+
+| Agent | 用户级安装路径 |
+|---|---|
+| WorkBuddy | `~/.workbuddy/skills/multi-agent-collab/` |
+| Claude Code | `~/.claude/skills/multi-agent-collab/` |
+| Codex | `~/.agents/skills/multi-agent-collab/` |
+| Gemini CLI | `~/.gemini/skills/multi-agent-collab/`（实验性） |
+
+目录结构：
 
 ```
-~/.workbuddy/skills/multi-agent-collab/
+multi-agent-collab/
 ├── SKILL.md
 └── references/
+    ├── task-brief-template.md
+    └── acceptance-checklist.md
 ```
 
-（Windows 路径：`C:\Users\Administrator\.workbuddy\skills\multi-agent-collab\`）
+新会话中自动生效（按 description 语义匹配触发）。
 
-新会话中自动生效。
+没有 skill 机制的 agent：可将 SKILL.md 协议全文作为 AGENTS.md / 系统提示词使用，references/ 下的模板照常引用。
 
 ## 使用
 
