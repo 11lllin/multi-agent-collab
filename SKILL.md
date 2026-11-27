@@ -2,6 +2,7 @@
 name: multi-agent-collab
 description: 多 agent 并行协作协议。当用户要求"并行做/多agent协作/分工/拆开做/并行处理/按协作协议"，或需要把一个任务拆成多个低耦合部分由多个子 agent 并行完成时使用。固化"主 agent 只拆解派发与集成验证 + 多个 worker 子 agent 各自在隔离目录独立干活"的流程：任务拆解、契约先行、任务书派发、验收复跑、进度汇报。
 agent_created: true
+compatibility: 适用于任意支持 Agent Skills 开放标准的 agent（WorkBuddy / Claude Code / Codex / Gemini CLI 等）；无子代理机制的环境可将协议全文作为系统提示词使用。
 ---
 
 # 多 agent 并行协作协议
@@ -37,13 +38,13 @@ agent_created: true
 
 ### 3. 生成任务书并派发
 
-按 references/task-brief-template.md 为每个 worker 生成任务书，用 Agent 工具派发（subagent_type: general-purpose），每个 worker 取唯一名字（如 worker-a/worker-b/...）。同一消息内并行发出多路派发以实现真正并发。任务书必须包含四要素：目标、边界、验收标准、回报格式。
+按 references/task-brief-template.md 为每个 worker 生成任务书，用运行环境可用的子代理机制派发（如 WorkBuddy 的 Agent 工具、Claude Code 的子代理、Codex 的子智能体委派；若无子代理机制，退化为在独立会话/进程中逐个执行），每个 worker 取唯一名字（如 worker-a/worker-b/...）。同一消息内并行发出多路派发以实现真正并发。任务书必须包含四要素：目标、边界、验收标准、回报格式。
 
 ### 4. 监控与进度反馈
 
 - 派发后立即向用户报：已派 N 路 + 各路任务一句话。
-- worker 过程不刷屏。用户要求"过程可见"时用后台运行 + 任务清单（TaskCreate/TaskUpdate）开看板。
-- worker 间需要协调时：通过共享契约文件同步接口变更，或要求 worker 用 SendMessage 互发消息。
+- worker 过程不刷屏。用户要求"过程可见"时用后台运行 + 任务清单/看板机制（如有）开看板。
+- worker 间需要协调时：通过共享契约文件同步接口变更，或用子代理间消息机制（如有）互发消息。
 
 ### 5. 集成验证
 
@@ -51,7 +52,7 @@ agent_created: true
 
 ### 6. 统一汇报
 
-向用户汇报：成果文件清单（路径）、各项验证结果原文、并行度与分工回顾、遗留问题如实标注。有交付物文件时用 present_files 呈上。
+向用户汇报：成果文件清单（路径）、各项验证结果原文、并行度与分工回顾、遗留问题如实标注。有交付物文件时用运行环境的产物呈现方式呈上（如文件预览/交付卡片）。
 
 ## 参数槽位
 
